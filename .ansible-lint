@@ -1,0 +1,20 @@
+---
+profile: production
+offline: false
+parseable: true
+strict: true
+use_default_rules: true
+verbosity: 1
+exclude_paths:
+  - .cache/
+  - .venv/
+  - collections/
+  - ansible_collections/yourorg/platform/tests/output/
+skip_list:
+  # Enable temporarily only with justification.
+  # - experimental
+warn_list:
+  - experimental
+  - jinja[spacing]
+mock_modules: []
+mock_roles: []

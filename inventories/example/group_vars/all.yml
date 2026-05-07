@@ -1,0 +1,6 @@
+---
+common_manage_packages: true
+common_base_packages:
+  - curl
+  - ca-certificates
+  - vim

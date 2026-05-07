@@ -1,0 +1,7 @@
+---
+- name: Bootstrap platform base nodes
+  hosts: all
+  become: true
+  gather_facts: true
+  roles:
+    - role: yourorg.platform.common
