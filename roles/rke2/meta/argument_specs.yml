@@ -1,0 +1,42 @@
+---
+argument_specs:
+  main:
+    short_description: RKE2 configuration template
+    options:
+      rke2_enabled:
+        type: bool
+        default: false
+        description: Whether RKE2 tasks should actively configure the node.
+      rke2_role:
+        type: str
+        default: server
+        choices: [server, agent]
+        description: RKE2 node role.
+      rke2_version:
+        type: str
+        default: ""
+        description: RKE2 version to install or manage. Empty means role default/implementation-specific.
+      rke2_token:
+        type: str
+        default: ""
+        no_log: true
+        description: Cluster token. Provide via Vault or external secret store.
+      rke2_server_url:
+        type: str
+        default: ""
+        description: Server URL for joining agents or additional servers.
+      rke2_tls_san:
+        type: list
+        elements: str
+        default: []
+        description: Additional TLS SAN entries.
+      rke2_node_labels:
+        type: list
+        elements: str
+        default: []
+        description: Node labels passed to RKE2.
+      rke2_node_taints:
+        type: list
+        elements: str
+        default: []
+        description: Node taints passed to RKE2.

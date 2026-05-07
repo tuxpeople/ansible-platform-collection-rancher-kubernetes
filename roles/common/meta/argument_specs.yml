@@ -1,0 +1,28 @@
+---
+argument_specs:
+  main:
+    short_description: Common base configuration
+    description:
+      - Installs common base packages and creates a platform marker directory.
+    options:
+      common_manage_packages:
+        type: bool
+        required: false
+        default: true
+        description:
+          - Whether to install common base packages.
+      common_base_packages:
+        type: list
+        elements: str
+        required: false
+        default:
+          - curl
+          - ca-certificates
+        description:
+          - Packages to install on all managed nodes.
+      common_marker_dir:
+        type: path
+        required: false
+        default: /etc/tuxpeople-platform
+        description:
+          - Directory used as a simple testable marker for the role.

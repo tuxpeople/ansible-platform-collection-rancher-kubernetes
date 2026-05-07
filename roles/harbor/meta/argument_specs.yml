@@ -1,0 +1,38 @@
+---
+argument_specs:
+  main:
+    short_description: Harbor Helm deployment template
+    options:
+      harbor_enabled:
+        type: bool
+        default: false
+        description: Whether to deploy harbor.
+      harbor_namespace:
+        type: str
+        default: harbor
+        description: Kubernetes namespace for harbor.
+      harbor_helm_release_name:
+        type: str
+        default: harbor
+        description: Helm release name.
+      harbor_helm_chart_ref:
+        type: str
+        default: harbor
+        description: Helm chart reference.
+      harbor_helm_repo_url:
+        type: str
+        default: https://helm.goharbor.io
+        description: Helm repository URL.
+      harbor_helm_chart_version:
+        type: str
+        default: ""
+        description: Helm chart version. Pin this in production inventories.
+      harbor_kubeconfig:
+        type: str
+        default: ""
+        no_log: true
+        description: Optional kubeconfig path or content, depending on module use. Prefer external config.
+      harbor_values:
+        type: dict
+        default: {}
+        description: Helm values for harbor.

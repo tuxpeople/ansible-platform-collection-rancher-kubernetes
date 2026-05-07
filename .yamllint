@@ -5,7 +5,7 @@ ignore: |
   .venv/
   .cache/
   collections/
-  ansible_collections/yourorg/platform/tests/output/
+  tests/output/
 
 rules:
   line-length:

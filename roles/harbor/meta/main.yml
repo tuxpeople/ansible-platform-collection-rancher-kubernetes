@@ -1,0 +1,18 @@
+---
+galaxy_info:
+  author: Your Name
+  description: Template-Rolle für Harbor Registry Deployment.
+  license: MIT
+  min_ansible_version: "2.16"
+  platforms:
+    - name: Debian
+      versions:
+        - bookworm
+    - name: Ubuntu
+      versions:
+        - jammy
+        - noble
+  galaxy_tags:
+    - platform
+    - linux
+dependencies: []

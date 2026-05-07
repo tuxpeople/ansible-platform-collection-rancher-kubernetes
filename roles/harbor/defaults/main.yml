@@ -1,0 +1,10 @@
+---
+harbor_enabled: false
+harbor_namespace: harbor
+harbor_helm_release_name: harbor
+harbor_helm_chart_ref: harbor
+harbor_helm_repo_url: https://helm.goharbor.io
+harbor_helm_chart_version: ""
+harbor_kubeconfig: ""
+harbor_values: {}
+harbor_marker_dir: /etc/tuxpeople-platform

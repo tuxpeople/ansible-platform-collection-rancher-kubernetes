@@ -1,35 +1,36 @@
-# Ansible Platform Collection Template
+# tuxpeople.rancher_kubernetes
 
-Template für ein Git-Repository mit einer internen Ansible Collection für Plattform-Automation, z.B. RKE2, Harbor Registry, Rancher Manager und weitere Kubernetes-nahe Komponenten.
+Ansible Collection für Plattform-Automation rund um RKE2, Harbor Registry
+und Rancher Manager.
 
 ## Collection
 
-Namespace: `yourorg`  
-Name: `platform`  
-FQCN: `yourorg.platform`
+FQCN: `tuxpeople.rancher_kubernetes`
 
-Passe diese Platzhalter in folgenden Dateien an:
+## Rollen
 
-- `ansible_collections/yourorg/platform/galaxy.yml`
-- `ansible_collections/yourorg/platform/README.md`
-- Rollen-README-Dateien
-- Beispiel-Playbooks
-- CI Workflow
+- `tuxpeople.rancher_kubernetes.common` – Basis-Konfiguration für
+  Linux-Systeme
+- `tuxpeople.rancher_kubernetes.rke2` – RKE2-Basisrolle (Template)
+- `tuxpeople.rancher_kubernetes.harbor` – Harbor-Deployment via Helm
+  (Template)
+- `tuxpeople.rancher_kubernetes.rancher` – Rancher Manager via Helm
+  (Template)
 
 ## Struktur
 
 ```text
-ansible_collections/yourorg/platform/
-  roles/
-    common/
-    rke2/
-    harbor/
-    rancher/
-  playbooks/
-  plugins/
-  docs/
-  tests/
-  galaxy.yml
+galaxy.yml
+roles/
+  common/
+  rke2/
+  harbor/
+  rancher/
+playbooks/
+plugins/
+docs/
+tests/
+CHANGELOG.rst
 AGENTS.md
 requirements.yml
 requirements-dev.txt
@@ -44,7 +45,7 @@ requirements-dev.txt
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements-dev.txt
-ansible-galaxy collection install -r requirements.yml
+ansible-galaxy collection install -r requirements.yml -p collections
 ```
 
 ## Qualitätssicherung
@@ -55,19 +56,20 @@ ansible-lint .
 ansible-test sanity --docker default -v
 ```
 
-Rollen-Tests mit Molecule, Beispiel:
+Rollen-Tests mit Molecule:
 
 ```bash
-cd ansible_collections/yourorg/platform/roles/common
+cd roles/common
 molecule test
 ```
 
 ## Beispiel-Playbook
 
 ```bash
-ansible-playbook -i inventories/example/hosts.yml ansible_collections/yourorg/platform/playbooks/bootstrap.yml
+ansible-playbook -i inventories/example/hosts.yml playbooks/bootstrap.yml
 ```
 
 ## Repository-Philosophie
 
-Die Collection bleibt generisch. Kunden-, Umgebungs- oder Cluster-spezifische Werte gehören in separate Inventory-Repositories.
+Die Collection bleibt generisch. Kunden-, Umgebungs- oder
+cluster-spezifische Werte gehören in separate Inventory-Repositories.

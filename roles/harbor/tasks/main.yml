@@ -1,0 +1,47 @@
+---
+- name: Ensure platform marker directory exists
+  ansible.builtin.file:
+    path: "{{ harbor_marker_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+  tags:
+    - harbor
+
+- name: Ensure harbor namespace exists
+  kubernetes.core.k8s:
+    kubeconfig: "{{ harbor_kubeconfig | default(omit, true) }}"
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: "{{ harbor_namespace }}"
+  when: harbor_enabled | bool
+  tags:
+    - harbor
+    - kubernetes
+
+- name: Deploy harbor Helm chart
+  kubernetes.core.helm:
+    kubeconfig: "{{ harbor_kubeconfig | default(omit, true) }}"
+    name: "{{ harbor_helm_release_name }}"
+    chart_ref: "{{ harbor_helm_chart_ref }}"
+    chart_repo_url: "{{ harbor_helm_repo_url }}"
+    chart_version: "{{ harbor_helm_chart_version | default(omit, true) }}"
+    release_namespace: "{{ harbor_namespace }}"
+    create_namespace: false
+    values: "{{ harbor_values }}"
+    wait: true
+  when: harbor_enabled | bool
+  tags:
+    - harbor
+    - helm
+
+- name: Explain disabled harbor deployment
+  ansible.builtin.debug:
+    msg: "harbor_enabled=false; Helm deployment is skipped."
+  when: not harbor_enabled | bool
+  tags:
+    - harbor

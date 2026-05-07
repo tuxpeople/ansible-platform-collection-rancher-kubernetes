@@ -1,0 +1,47 @@
+---
+- name: Ensure platform marker directory exists
+  ansible.builtin.file:
+    path: "{{ rancher_marker_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+  tags:
+    - rancher
+
+- name: Ensure rancher namespace exists
+  kubernetes.core.k8s:
+    kubeconfig: "{{ rancher_kubeconfig | default(omit, true) }}"
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: "{{ rancher_namespace }}"
+  when: rancher_enabled | bool
+  tags:
+    - rancher
+    - kubernetes
+
+- name: Deploy rancher Helm chart
+  kubernetes.core.helm:
+    kubeconfig: "{{ rancher_kubeconfig | default(omit, true) }}"
+    name: "{{ rancher_helm_release_name }}"
+    chart_ref: "{{ rancher_helm_chart_ref }}"
+    chart_repo_url: "{{ rancher_helm_repo_url }}"
+    chart_version: "{{ rancher_helm_chart_version | default(omit, true) }}"
+    release_namespace: "{{ rancher_namespace }}"
+    create_namespace: false
+    values: "{{ rancher_values }}"
+    wait: true
+  when: rancher_enabled | bool
+  tags:
+    - rancher
+    - helm
+
+- name: Explain disabled rancher deployment
+  ansible.builtin.debug:
+    msg: "rancher_enabled=false; Helm deployment is skipped."
+  when: not rancher_enabled | bool
+  tags:
+    - rancher

@@ -1,0 +1,38 @@
+---
+argument_specs:
+  main:
+    short_description: Rancher Helm deployment template
+    options:
+      rancher_enabled:
+        type: bool
+        default: false
+        description: Whether to deploy rancher.
+      rancher_namespace:
+        type: str
+        default: cattle-system
+        description: Kubernetes namespace for rancher.
+      rancher_helm_release_name:
+        type: str
+        default: rancher
+        description: Helm release name.
+      rancher_helm_chart_ref:
+        type: str
+        default: rancher
+        description: Helm chart reference.
+      rancher_helm_repo_url:
+        type: str
+        default: https://releases.rancher.com/server-charts/stable
+        description: Helm repository URL.
+      rancher_helm_chart_version:
+        type: str
+        default: ""
+        description: Helm chart version. Pin this in production inventories.
+      rancher_kubeconfig:
+        type: str
+        default: ""
+        no_log: true
+        description: Optional kubeconfig path or content, depending on module use. Prefer external config.
+      rancher_values:
+        type: dict
+        default: {}
+        description: Helm values for rancher.

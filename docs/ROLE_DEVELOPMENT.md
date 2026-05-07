@@ -3,7 +3,6 @@
 ## Neue Rolle anlegen
 
 ```bash
-cd ansible_collections/yourorg/platform
 ansible-galaxy role init roles/<role_name>
 ```
 

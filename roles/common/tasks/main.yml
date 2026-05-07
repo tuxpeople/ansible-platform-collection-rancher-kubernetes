@@ -1,0 +1,19 @@
+---
+- name: Ensure platform marker directory exists
+  ansible.builtin.file:
+    path: "{{ common_marker_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+  tags:
+    - common
+
+- name: Install common base packages
+  ansible.builtin.package:
+    name: "{{ common_base_packages }}"
+    state: present
+  when: common_manage_packages | bool
+  tags:
+    - common
+    - packages

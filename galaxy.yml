@@ -1,0 +1,30 @@
+---
+namespace: tuxpeople
+name: rancher_kubernetes
+version: 0.1.0
+readme: README.md
+authors:
+  - Thomas Deutsch <github@tuxpeople.org>
+description: Reusable platform automation roles for Kubernetes, RKE2, Harbor and Rancher.
+license:
+  - MIT
+tags:
+  - linux
+  - kubernetes
+  - rke2
+  - harbor
+  - rancher
+  - platform
+  - infrastructure
+dependencies:
+  ansible.posix: ">=1.5.4,<2.0.0"
+  community.general: ">=8.0.0,<11.0.0"
+  kubernetes.core: ">=3.0.0,<6.0.0"
+  community.crypto: ">=2.16.0,<3.0.0"
+repository: https://github.com/tuxpeople/ansible-platform-collection-rancher-kubernetes
+issues: https://github.com/tuxpeople/ansible-platform-collection-rancher-kubernetes/issues
+build_ignore:
+  - .gitignore
+  - .github
+  - .venv
+  - tests/output

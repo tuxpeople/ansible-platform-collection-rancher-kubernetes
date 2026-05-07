@@ -1,0 +1,25 @@
+# Managed by Ansible: tuxpeople.rancher_kubernetes.rke2
+{% if rke2_token | length > 0 %}
+token: "{{ rke2_token }}"
+{% endif %}
+{% if rke2_server_url | length > 0 %}
+server: "{{ rke2_server_url }}"
+{% endif %}
+{% if rke2_tls_san | length > 0 %}
+tls-san:
+{% for san in rke2_tls_san %}
+  - "{{ san }}"
+{% endfor %}
+{% endif %}
+{% if rke2_node_labels | length > 0 %}
+node-label:
+{% for label in rke2_node_labels %}
+  - "{{ label }}"
+{% endfor %}
+{% endif %}
+{% if rke2_node_taints | length > 0 %}
+node-taint:
+{% for taint in rke2_node_taints %}
+  - "{{ taint }}"
+{% endfor %}
+{% endif %}

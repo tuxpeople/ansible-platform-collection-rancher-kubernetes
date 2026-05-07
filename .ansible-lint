@@ -1,7 +1,6 @@
 ---
 profile: production
 offline: false
-parseable: true
 strict: true
 use_default_rules: true
 verbosity: 1
@@ -9,10 +8,9 @@ exclude_paths:
   - .cache/
   - .venv/
   - collections/
-  - ansible_collections/yourorg/platform/tests/output/
-skip_list:
-  # Enable temporarily only with justification.
-  # - experimental
+  - tests/output/
+# Enable skip_list entries temporarily only with justification, e.g.: [experimental]
+skip_list: []
 warn_list:
   - experimental
   - jinja[spacing]

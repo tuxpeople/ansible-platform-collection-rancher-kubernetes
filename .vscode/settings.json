@@ -1,0 +1,38 @@
+{
+  // Python: venv im Repo-Root verwenden
+  "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
+
+  // Ansible Extension: Tools aus dem venv
+  "ansible.python.interpreterPath": "${workspaceFolder}/.venv/bin/python",
+  "ansible.validation.lint.path": "${workspaceFolder}/.venv/bin/ansible-lint",
+  "ansible.validation.lint.enabled": true,
+
+  // ansible-lint Config explizit setzen (verhindert Suche im falschen Verzeichnis)
+  "ansible.validation.lint.arguments": "-c ${workspaceFolder}/.ansible-lint",
+
+  // YAML Extension: Ansible-Dateien korrekt erkennen
+  "yaml.schemas": {
+    "https://raw.githubusercontent.com/ansible/ansible-lint/main/src/ansiblelint/schemas/ansible.json#/$defs/tasks": [
+      "roles/*/tasks/*.yml",
+      "roles/*/handlers/*.yml",
+      "playbooks/*.yml"
+    ],
+    "https://raw.githubusercontent.com/ansible/ansible-lint/main/src/ansiblelint/schemas/meta.json": [
+      "roles/*/meta/main.yml"
+    ],
+    "https://raw.githubusercontent.com/ansible/ansible-lint/main/src/ansiblelint/schemas/arg_specs.json": [
+      "roles/*/meta/argument_specs.yml"
+    ]
+  },
+
+  // Dateizuordnungen für Syntax-Highlighting
+  "files.associations": {
+    "*.yml": "yaml",
+    "*/molecule/**/*.yml": "yaml",
+    "*/defaults/*.yml": "yaml",
+    "*/vars/*.yml": "yaml",
+    "*/tasks/*.yml": "yaml",
+    "*/handlers/*.yml": "yaml",
+    "*/meta/*.yml": "yaml"
+  }
+}

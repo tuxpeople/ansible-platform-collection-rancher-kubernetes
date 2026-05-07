@@ -1,0 +1,16 @@
+---
+- name: Verify
+  hosts: all
+  become: true
+  gather_facts: false
+  tasks:
+    - name: Verify role marker directory exists
+      ansible.builtin.stat:
+        path: /etc/tuxpeople-platform
+      register: rancher_marker_dir
+
+    - name: Assert marker directory exists
+      ansible.builtin.assert:
+        that:
+          - rancher_marker_dir.stat.exists
+          - rancher_marker_dir.stat.isdir

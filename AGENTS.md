@@ -2,7 +2,8 @@
 
 ## Ziel
 
-Entwickle wiederverwendbare, sichere, idempotente und getestete Ansible-Rollen innerhalb der Collection `yourorg.platform`.
+Entwickle wiederverwendbare, sichere, idempotente und getestete Ansible-Rollen
+innerhalb der Collection `tuxpeople.rancher_kubernetes`.
 
 Typische Rollen in dieser Collection:
 
@@ -10,23 +11,28 @@ Typische Rollen in dieser Collection:
 - `rke2`
 - `harbor`
 - `rancher`
-- weitere Plattform-Komponenten wie `longhorn`, `cert_manager`, `ingress_nginx`, `metallb`, `monitoring`, `backup`
+- weitere Plattform-Komponenten wie `longhorn`, `cert_manager`,
+  `ingress_nginx`, `metallb`, `monitoring`, `backup`
 
 ## Grundregeln
 
 1. Idempotenz ist Pflicht.
    - Wiederholte Runs dürfen keine unnötigen Changes erzeugen.
    - `shell` und `command` nur verwenden, wenn es kein passendes Modul gibt.
-   - Bei `shell`/`command` immer `changed_when`, `failed_when`, `creates`, `removes` oder eine klare Begründung nutzen.
+   - Bei `shell`/`command` immer `changed_when`, `failed_when`, `creates`,
+     `removes` oder eine klare Begründung nutzen.
 
 2. Keine Secrets im Repository.
-   - Keine Passwörter, Tokens, Private Keys, kubeconfigs oder Zertifikate committen.
+   - Keine Passwörter, Tokens, Private Keys, kubeconfigs oder Zertifikate
+     committen.
    - Secrets nur als Variablennamen dokumentieren.
    - Beispielwerte müssen klar als Dummy-Werte erkennbar sein.
 
 3. Rollen sind generisch.
-   - Keine kundenspezifischen Hostnamen, IP-Adressen, Domains oder Pfade hardcoden.
-   - Alles Umgebungsabhängige gehört in Inventory, `group_vars`, `host_vars` oder externe Secret Stores.
+   - Keine kundenspezifischen Hostnamen, IP-Adressen, Domains oder Pfade
+     hardcoden.
+   - Alles Umgebungsabhängige gehört in Inventory, `group_vars`, `host_vars`
+     oder externe Secret Stores.
 
 4. Nutze FQCNs.
    - Immer `ansible.builtin.template` statt `template`.
@@ -42,27 +48,34 @@ Typische Rollen in dieser Collection:
 
 7. Klare Variablenschnittstelle.
    - Öffentliche Variablen liegen in `defaults/main.yml`.
-   - Rollenspezifischer Prefix ist Pflicht, z.B. `rke2_`, `harbor_`, `rancher_`.
-   - Interne Variablen nach Möglichkeit in `vars/main.yml` oder lokal im Task block halten.
+   - Rollenspezifischer Prefix ist Pflicht, z.B. `rke2_`, `harbor_`,
+     `rancher_`.
+   - Interne Variablen nach Möglichkeit in `vars/main.yml` oder lokal im
+     Task-Block halten.
 
 8. Argument Validation.
    - Jede Rolle pflegt `meta/argument_specs.yml`.
-   - Öffentliche Variablen müssen Typ, Beschreibung und Default/Required-Status haben.
+   - Öffentliche Variablen müssen Typ, Beschreibung und
+     Default/Required-Status haben.
 
 9. Dokumentation.
-   - Jede Rolle hat ein `README.md` mit Zweck, Variablen, Beispiel, Tags, Dependencies und Einschränkungen.
+   - Jede Rolle hat ein `README.md` mit Zweck, Variablen, Beispiel, Tags,
+     Dependencies und Einschränkungen.
    - Jede Annahme muss dokumentiert werden.
 
 10. Tests.
-   - Jede Rolle enthält mindestens ein Molecule-Szenario.
-   - Pflicht: converge, idempotence und verify.
-   - Wo Container-Tests nicht sinnvoll sind, muss dies im Rollen-README begründet werden.
+
+    - Jede Rolle enthält mindestens ein Molecule-Szenario.
+    - Pflicht: converge, idempotence und verify.
+    - Wo Container-Tests nicht sinnvoll sind, muss dies im Rollen-README
+      begründet werden.
 
 ## Architektur-Leitplanken
 
 ### Collection bleibt generisch
 
-Diese Collection enthält wiederverwendbare Rollen und Playbooks. Sie enthält keine produktiven Inventories.
+Diese Collection enthält wiederverwendbare Rollen und Playbooks.
+Sie enthält keine produktiven Inventories.
 
 Nicht hierhin gehören:
 
@@ -132,7 +145,8 @@ Schlechte Tasks:
 - shell: curl -sfL https://get.rke2.io | sh -
 ```
 
-Falls externe Installer notwendig sind, Download, Prüfsummen, Versionierung und Ausführung trennen.
+Falls externe Installer notwendig sind, Download, Prüfsummen, Versionierung
+und Ausführung trennen.
 
 ## Kubernetes- und Helm-Leitplanken
 
@@ -141,14 +155,16 @@ Falls externe Installer notwendig sind, Download, Prüfsummen, Versionierung und
 - Chart-Versionen pinnen.
 - Wartebedingungen definieren, wo sinnvoll.
 - Keine kubeconfig im Repository ablegen.
-- `validate_certs: false` nur mit Begründung und nur als bewusst gesetzte Variable.
+- `validate_certs: false` nur mit Begründung und nur als bewusst gesetzte
+  Variable.
 
 ## Security Defaults
 
 - Sichere Defaults bevorzugen.
 - Keine Dienste unnötig auf `0.0.0.0` binden.
 - TLS nicht deaktivieren.
-- Admin-Passwörter nicht automatisch generieren und ausgeben, außer explizit als nicht-produktiver Dev-Modus gekennzeichnet.
+- Admin-Passwörter nicht automatisch generieren und ausgeben, außer explizit
+  als nicht-produktiver Dev-Modus gekennzeichnet.
 - Privilegierte Tasks nur mit `become: true` auf Task- oder Block-Ebene.
 
 ## Linting und Tests
@@ -164,7 +180,7 @@ ansible-test sanity --docker default -v
 Für geänderte Rollen zusätzlich:
 
 ```bash
-cd ansible_collections/yourorg/platform/roles/<role_name>
+cd roles/<role_name>
 molecule test
 ```
 
@@ -180,4 +196,3 @@ Eine Änderung ist erst fertig, wenn:
 - Linting erfolgreich ist
 - Molecule-Szenario vorhanden oder begründet ausgenommen ist
 - Beispiel-Playbook weiterhin lauffähig ist
-```

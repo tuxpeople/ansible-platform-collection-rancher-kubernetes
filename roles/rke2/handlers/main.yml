@@ -1,0 +1,6 @@
+---
+- name: Restart rke2
+  ansible.builtin.service:
+    name: "{{ 'rke2-server' if rke2_role == 'server' else 'rke2-agent' }}"
+    state: restarted
+  when: rke2_enabled | bool
