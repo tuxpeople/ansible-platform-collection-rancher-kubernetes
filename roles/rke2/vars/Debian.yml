@@ -1,0 +1,9 @@
+---
+# OS-spezifische Variablen fuer Debian/Ubuntu
+# Getestet: Ubuntu 24.04 (noble)
+
+# Pakete, die vor der RKE2-Installation benoetigt werden
+_rke2_dependencies:
+  - curl
+  - tar
+  - nfs-common

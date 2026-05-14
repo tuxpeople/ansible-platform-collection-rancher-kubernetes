@@ -1,0 +1,11 @@
+---
+# OS-spezifische Variablen fuer RedHat/Rocky/AlmaLinux
+# TODO: Testen auf Rocky Linux 9
+
+# Pakete, die vor der RKE2-Installation benoetigt werden
+# iptables-nft ist auf RHEL-Systemen fuer RKE2 erforderlich
+_rke2_dependencies:
+  - curl
+  - tar
+  - nfs-utils
+  - iptables-nft

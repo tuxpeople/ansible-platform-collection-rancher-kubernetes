@@ -108,16 +108,101 @@ Beim Erstellen oder Ändern einer Rolle zuerst ein kurzes Design liefern:
 
 Erst danach Code generieren.
 
+## OS-Unterstützung
+
+### Strategie: Ein OS zuerst, OS-neutral von Anfang an
+
+Primäres Ziel-OS: **Ubuntu 24.04 (noble)**. Geplantes zweites OS:
+**Rocky Linux 9**.
+
+Rollen, die auf Linux-Nodes laufen (`common`, `rke2`), nutzen zwingend
+das `vars/`-Muster für OS-spezifische Werte. Helm-Rollen (`harbor`,
+`rancher`) sind OS-agnostisch und brauchen kein OS-Vars-Muster.
+
+### vars/-Muster für OS-spezifische Werte
+
+```text
+roles/<role_name>/
+  vars/
+    Debian.yml    # Ubuntu 24.04 – primary target
+    RedHat.yml    # Rocky Linux 9 – planned, TODO-Kommentar wenn ungetestet
+```
+
+Interne OS-Variablen tragen den Prefix `_<rollenname>_` (Underscore = intern,
+nicht für Nutzer gedacht). Beispiel:
+
+```yaml
+# vars/Debian.yml
+_common_base_packages:
+  - curl
+  - ca-certificates
+  - vim
+
+# vars/RedHat.yml
+_common_base_packages:
+  - curl
+  - ca-certificates
+  - vim-minimal
+```
+
+Die öffentliche Variable in `defaults/main.yml` verweist auf den internen Wert
+und bleibt für Nutzer überschreibbar:
+
+```yaml
+# defaults/main.yml
+common_base_packages: "{{ _common_base_packages }}"
+```
+
+### Pflichtstruktur in tasks/main.yml (Linux-Rollen)
+
+Die ersten zwei Tasks jeder Linux-Rolle sind immer:
+
+```yaml
+- name: Assert supported OS family
+  ansible.builtin.assert:
+    that:
+      - ansible_os_family in ['Debian', 'RedHat']
+    fail_msg: >-
+      Unsupported OS family: {{ ansible_os_family }}.
+      Supported: Debian (Ubuntu 24.04), RedHat (Rocky 9) - see README.
+  tags:
+    - <role_name>
+
+- name: Load OS-specific variables
+  ansible.builtin.include_vars: "{{ ansible_os_family }}.yml"
+  tags:
+    - <role_name>
+```
+
+### Neue OS-Unterstützung hinzufügen
+
+1. `vars/RedHat.yml` mit korrekten Werten befüllen (TODO entfernen)
+2. Molecule-Szenario für Rocky 9 erstellen oder bestehendes erweitern
+3. `meta/main.yml` um `Rocky: "9"` ergänzen – **erst nach erfolgreichem
+   Molecule-Test**
+4. README der Rolle aktualisieren
+
+### Welche Rollen brauchen OS-Vars?
+
+| Rolle | OS-Vars nötig? | Begründung |
+| --- | --- | --- |
+| `common` | Ja | Läuft auf Linux-Nodes, paketverwaltungsabhängig |
+| `rke2` | Ja | Läuft auf Linux-Nodes, OS-spezifische Dependencies |
+| `harbor` | Nein | Helm/k8s API – OS-agnostisch |
+| `rancher` | Nein | Helm/k8s API – OS-agnostisch |
+
 ## Rollenstruktur
 
 ```text
 roles/<role_name>/
   defaults/main.yml
-  vars/main.yml              # nur falls nötig
+  vars/
+    Debian.yml             # OS-spezifische Vars (Linux-Rollen)
+    RedHat.yml             # OS-spezifische Vars (Linux-Rollen)
   tasks/main.yml
-  handlers/main.yml          # falls Services/Daemons betroffen sind
-  templates/                 # falls Templates verwendet werden
-  files/                     # nur statische, nicht geheime Dateien
+  handlers/main.yml        # falls Services/Daemons betroffen sind
+  templates/               # falls Templates verwendet werden
+  files/                   # nur statische, nicht geheime Dateien
   meta/main.yml
   meta/argument_specs.yml
   molecule/default/

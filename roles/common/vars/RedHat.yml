@@ -1,0 +1,7 @@
+---
+# OS-spezifische Variablen fuer RedHat/Rocky/AlmaLinux
+# TODO: Testen auf Rocky Linux 9
+_common_base_packages:
+  - curl
+  - ca-certificates
+  - vim-minimal

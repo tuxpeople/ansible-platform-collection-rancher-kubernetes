@@ -7,15 +7,24 @@ und Rancher Manager.
 
 FQCN: `tuxpeople.rancher_kubernetes`
 
+## Unterstützte Plattformen
+
+| OS | Version | Status |
+| --- | --- | --- |
+| Ubuntu | 24.04 (noble) | Primäres Ziel – getestet |
+| Rocky Linux | 9 | Geplant – in Entwicklung |
+
+Helm-Rollen (`harbor`, `rancher`) laufen auf dem Ansible-Controller und
+sind OS-agnostisch.
+
 ## Rollen
 
-- `tuxpeople.rancher_kubernetes.common` – Basis-Konfiguration für
-  Linux-Systeme
-- `tuxpeople.rancher_kubernetes.rke2` – RKE2-Basisrolle (Template)
-- `tuxpeople.rancher_kubernetes.harbor` – Harbor-Deployment via Helm
-  (Template)
-- `tuxpeople.rancher_kubernetes.rancher` – Rancher Manager via Helm
-  (Template)
+| Rolle | Zweck | OS-spezifisch |
+| --- | --- | --- |
+| `common` | Basis-Konfiguration für Linux-Nodes | Ja |
+| `rke2` | RKE2 Kubernetes (Template) | Ja |
+| `harbor` | Harbor Registry via Helm (Template) | Nein |
+| `rancher` | Rancher Manager via Helm (Template) | Nein |
 
 ## Struktur
 
@@ -73,3 +82,4 @@ ansible-playbook -i inventories/example/hosts.yml playbooks/bootstrap.yml
 
 Die Collection bleibt generisch. Kunden-, Umgebungs- oder
 cluster-spezifische Werte gehören in separate Inventory-Repositories.
+Siehe `docs/ROLE_DEVELOPMENT.md` für Entwicklungsrichtlinien.

@@ -1,0 +1,7 @@
+---
+# OS-spezifische Variablen fuer Debian/Ubuntu
+# Getestet: Ubuntu 24.04 (noble)
+_common_base_packages:
+  - curl
+  - ca-certificates
+  - vim

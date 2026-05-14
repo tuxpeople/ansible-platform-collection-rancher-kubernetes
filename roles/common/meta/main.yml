@@ -1,16 +1,13 @@
 ---
 galaxy_info:
-  author: Your Name
-  description: Basis-Konfiguration für Linux-Systeme.
+  author: Thomas Deutsch
+  description: Basis-Konfiguration fuer Linux-Systeme.
   license: MIT
   min_ansible_version: "2.16"
   platforms:
-    - name: Debian
-      versions:
-        - bookworm
+    # Getestet. Geplant: Rocky Linux 9 (siehe vars/RedHat.yml)
     - name: Ubuntu
       versions:
-        - jammy
         - noble
   galaxy_tags:
     - platform

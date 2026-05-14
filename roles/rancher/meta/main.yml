@@ -1,18 +1,18 @@
 ---
 galaxy_info:
-  author: Your Name
-  description: Template-Rolle für Rancher Manager Deployment.
+  author: Thomas Deutsch
+  description: Template-Rolle fuer Rancher Manager Deployment via Helm.
   license: MIT
   min_ansible_version: "2.16"
   platforms:
-    - name: Debian
-      versions:
-        - bookworm
+    # Helm-Rolle – laeuft auf dem Ansible-Controller, OS-agnostisch.
+    # Getestet von Ubuntu 24.04 aus.
     - name: Ubuntu
       versions:
-        - jammy
         - noble
   galaxy_tags:
     - platform
-    - linux
+    - kubernetes
+    - helm
+    - rancher
 dependencies: []

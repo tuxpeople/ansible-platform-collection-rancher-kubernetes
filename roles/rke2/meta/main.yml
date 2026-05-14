@@ -1,18 +1,17 @@
 ---
 galaxy_info:
-  author: Your Name
-  description: Template-Rolle für RKE2-Installation und Konfiguration.
+  author: Thomas Deutsch
+  description: Template-Rolle fuer RKE2-Installation und Konfiguration.
   license: MIT
   min_ansible_version: "2.16"
   platforms:
-    - name: Debian
-      versions:
-        - bookworm
+    # Getestet. Geplant: Rocky Linux 9 (siehe vars/RedHat.yml)
     - name: Ubuntu
       versions:
-        - jammy
         - noble
   galaxy_tags:
     - platform
     - linux
+    - kubernetes
+    - rke2
 dependencies: []
